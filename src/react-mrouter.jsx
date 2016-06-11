@@ -19,11 +19,12 @@ export var Router = React.createClass({
 
     componentDidMount: function(){
         var that = this;
-        window.addEventListener('touchend', function(){
+        window.addEventListener('click', function(){
             lastTouch = Date.now();
-        });
+        }, true);
 
         window.onpopstate = function(){
+            console.log(Date.now(),'state');
             // 通用路由规则
             // /{viewName}/{params}
             var path = location.hash.replace(/^#\//, '');
@@ -41,7 +42,8 @@ export var Router = React.createClass({
             if(path == currentViewPath) return;
 
             if(path == lastViewPath) {
-                if(Date.now() - lastTouch < 9) {
+                if(Date.now() - lastTouch < 99) {
+                    lastTouch = 0;// disable back fix
                     // next router is last, fix back
                     history.go(-2);
                 } else {
