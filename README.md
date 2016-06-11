@@ -29,6 +29,8 @@ render(<App/>, document.getElementById('app'));
 
 #### pass params through `router.goto()`
 ```
+import router from 'react-mrouter';
+
 function gotoView2WithParams(){
     router.goto('/view2', 'some params');
 }
