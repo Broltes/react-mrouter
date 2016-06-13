@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import './app.less';
 import { Router } from 'react-mrouter';
 
-var Views = {
+var views = {
     base: require('./views/base'),
     view1: require('./views/1'),
     view2: require('./views/2'),
@@ -11,7 +11,7 @@ var Views = {
 
 var App = React.createClass({
     render: function(){
-        return <Router Views={Views}/>;
+        return <Router views={views}/>;
     }
 });
 render(<App/>, document.getElementById('app'));

@@ -8,7 +8,7 @@ module.exports = React.createClass({
 
     render: function() {
         return (
-            <div className="view">
+            <div>
                 <header>
                     <h2>react-mrouter</h2>
                 </header>

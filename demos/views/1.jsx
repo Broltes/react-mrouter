@@ -4,7 +4,7 @@ import router from 'react-mrouter';
 module.exports = React.createClass({
     render: function() {
         return (
-            <div className="view">
+            <div>
                 <header>
                     <p className="las">
                         <a className="btn-back" onClick={router.back}/>

@@ -1,3 +1,13 @@
+#views {
+    .view{
+        position: absolute;// fixed加速ios键盘弹出响应但导致聊天输入框长按获取焦点失败
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;// 某些情况footer被挤压
+    }
+}
+
 .zoom-fade {
     &-enter {
         opacity: 0;

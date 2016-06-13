@@ -14,17 +14,19 @@ export var Router = React.createClass({
     getDefaultProps: function () {
         return {
             transitionName: 'zoom-fade',
+            viewClass: 'view'
         };
     },
 
     componentDidMount: function(){
         var that = this;
+        var viewClass = this.props.viewClass;
+
         window.addEventListener('click', function(){
             lastTouch = Date.now();
         }, true);
 
         window.onpopstate = function(){
-            console.log(Date.now(),'state');
             // 通用路由规则
             // /{viewName}/{params}
             var path = location.hash.replace(/^#\//, '');
@@ -51,15 +53,14 @@ export var Router = React.createClass({
                     visuals.pop();
                 }
             } else {
-                var View = that.props.Views[viewName];
+                var View = that.props.views[viewName];
 
                 if(View) {
                     // open new view
                     visuals.push(
-                        <View key={visuals.length}
-                            actions={actions}
-                            params={params}
-                            path={path}/>
+                        <div className={viewClass} key={visuals.length} path={path}>
+                            <View actions={actions} params={params}/>
+                        </div>
                     );
                 } else if(visuals.length){
                     // clear
@@ -73,8 +74,8 @@ export var Router = React.createClass({
         window.onpopstate();// start router
     },
     render: function(){
-        var { Views, transitionName } = this.props;
-        var Base = Views.base;
+        var { views, transitionName, viewClass } = this.props;
+        var Base = views.base;
 
         var showing = [].concat();
 
@@ -83,8 +84,8 @@ export var Router = React.createClass({
                 transitionName={transitionName}
                 transitionEnterTimeout={400}
                 transitionLeaveTimeout={400}
-                component="div">
-                <Base/>
+                component="div" id="views">
+                <div className={viewClass}><Base/></div>
                 {this.state.visuals}
             </ReactCSSTransitionGroup>
         );
