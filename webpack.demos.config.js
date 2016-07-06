@@ -1,11 +1,10 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require("path");
-var assets = 'demos';
 var dist = '../github.io/router';
 
 module.exports = {
-    context: path.resolve(assets),
+    context: path.resolve('demos'),
     entry: [
         'babel-polyfill',
         './app.jsx'

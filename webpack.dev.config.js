@@ -5,19 +5,15 @@ var devport = 6003;
 var assets = 'demos';
 
 module.exports = {
-    context: path.resolve(assets),
+    context: path.resolve('demos'),
     entry: [
         'babel-polyfill',
         './app.jsx'
     ],
-    output: {
-        path: path.resolve(assets),
-        filename: 'app.js'
-    },
     plugins: [
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
         new webpack.NoErrorsPlugin(),
-        new HtmlWebpackPlugin({ template: path.resolve(assets + '/index.html') })
+        new HtmlWebpackPlugin({ template: 'index.html' })
     ],
     devServer: {
         inline: true,

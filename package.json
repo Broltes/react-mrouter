@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --hot --config webpack.dev.config.js",
     "build": "babel src --out-dir lib && cp src/*.less lib/",
-    "demos": "webpack -p --progress --optimize-dedupe --config webpack.demos.config.js",
+    "demos": "webpack -p --optimize-dedupe --progress --config webpack.demos.config.js",
     "clean:demos": "rm -rf ../github.io/router",
     "clean:lib": "rm -rf lib/",
     "test": "echo \"Error: no test specified\" && exit 1"
