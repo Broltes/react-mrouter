@@ -1,8 +1,8 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
-var devport = 6003;
+var path = require("path");
 var assets = 'demos';
+var dist = '../github.io/router';
 
 module.exports = {
     context: path.resolve(assets),
@@ -11,21 +11,13 @@ module.exports = {
         './app.jsx'
     ],
     output: {
-        path: path.resolve(assets),
-        filename: 'app.js'
+        path: path.resolve(dist),
+        filename: '[name].js?[chunkhash]'
     },
     plugins: [
-        new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
-        new webpack.NoErrorsPlugin(),
-        new HtmlWebpackPlugin({ template: path.resolve(assets + '/index.html') })
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+        new HtmlWebpackPlugin({ template: 'index.html' })
     ],
-    devServer: {
-        inline: true,
-        noInfo: true,
-
-        host: '0.0.0.0',
-        port: devport
-    },
     resolve: {
         extensions: ['', '.js', '.jsx'],
         root: path.resolve('./src')
@@ -37,26 +29,23 @@ module.exports = {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loaders: [
-                    'react-hot',
                     'babel?presets[]=react,presets[]=es2015'
                 ]
             }, {
                 test: /\.less$/,
                 loaders: [
                     'style',
-                    'css?sourceMap',
+                    'css?-minimize',
                     'postcss',
-                    'less?sourceMap'
+                    'less'
                 ]
             }
         ]
     },
 
-    postcss: function() {
+    postcss: function () {
         return [
-            require('autoprefixer')({ browsers: ["Android >= 4", "iOS >= 7"] })
+            require('autoprefixer')({ browsers: ["Android >= 4", "iOS >= 7"]})
         ];
-    },
-
-    devtool: 'eval'
+    }
 };
