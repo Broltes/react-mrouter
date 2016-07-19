@@ -3,7 +3,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './animation.less';
 
 var vp;// view params，视图通过路由传递的参数
-var lastTouch;
 function getPath(url) {
     return (url || location.hash).replace(/^#\//, '');
 }
@@ -27,10 +26,6 @@ export var Router = React.createClass({
         var viewClass = that.props.viewClass;
         var baseView = that.props.baseView;
 
-        window.addEventListener('click', function(){
-            lastTouch = Date.now();
-        }, true);
-
         function onpopstate(){
             // 通用路由规则
             // /{viewName}/{params}
@@ -40,39 +35,31 @@ export var Router = React.createClass({
             var params = vp;
             vp = null;// reset
 
-            // 加载baseView时重置view队列
-            // 防止 初始View!=BaseView时，fix back 异常
-            var visuals = viewName == baseView ? [] : that.state.visuals.slice();
-            var currentView = visuals.slice(-1)[0];
-            var currentViewPath = currentView ? currentView.props.path : '';
+            var visuals = that.state.visuals.slice();
             var lastViewPath = visuals.length > 1 ? visuals.slice(-2)[0].props.path : '';
 
-            // target router is current router
-            if(path == currentViewPath) return;
+            var currentViewState = history.state;
+            if(visuals[0] && currentViewState) {
+                // has view && has view state
+                // do close
+                // close current view
+                visuals.pop();
+            }
 
-            if(path == lastViewPath) {
-                if(Date.now() - lastTouch < 99) {
-                    lastTouch = 0;// disable back fix
-                    // next router is last, fix back
-                    history.go(-2);
-                } else {
-                    // close current view
-                    visuals.pop();
-                }
-            } else {
+            if(!visuals[0] || !currentViewState){
+                // next router is last, fix back
+                if(path == lastViewPath) return history.go(-2);
+
+                // no view || no view state
+                // open new view
                 var View = that.props.views[viewName];
+                visuals.push(
+                    <div className={viewClass} key={'v' + visuals.length} path={path}>
+                        <View actions={actions} params={params}/>
+                    </div>
+                );
 
-                if(View) {
-                    // open new view
-                    visuals.push(
-                        <div className={viewClass} key={'v' + visuals.length} path={path}>
-                            <View actions={actions} params={params}/>
-                        </div>
-                    );
-                } else if(visuals.length){
-                    // clear
-                    visuals = [];
-                }
+                history.replaceState({ stamp: Date.now() }, '', location.hash);
             }
 
             that.setState({visuals: visuals});
@@ -81,7 +68,7 @@ export var Router = React.createClass({
         onpopstate();// start router
     },
     render: function(){
-        const { views, transitionName, viewClass } = this.props;
+        const { transitionName } = this.props;
         const { visuals } = this.state;
 
         return (
@@ -105,8 +92,7 @@ export default {
     },
     getPath,
     back(){
-        lastTouch = 0;// disable back fix
-        if(location.hash.replace(/^#\//, '')) history.back();
+        history.back();
     },
     reload(){
         /* global plus */
