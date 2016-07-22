@@ -16,14 +16,12 @@ export var Router = React.createClass({
     getDefaultProps: function () {
         return {
             transitionName: 'zoom-fade',
-            viewClass: 'view',
             baseView: 'base'
         };
     },
 
     componentDidMount: function(){
         var that = this;
-        var viewClass = that.props.viewClass;
         var baseView = that.props.baseView;
 
         function onpopstate(){
@@ -54,7 +52,7 @@ export var Router = React.createClass({
                 // open new view
                 var View = that.props.views[viewName];
                 visuals.push(
-                    <div className={viewClass} key={'v' + visuals.length} path={path}>
+                    <div className="view" key={'v' + visuals.length} path={path}>
                         <View actions={actions} params={params}/>
                     </div>
                 );
