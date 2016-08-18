@@ -24,10 +24,10 @@ var App = React.createClass({
 render(<App/>, document.getElementById('app'));
 ```
 
-#### pass actions through `href`
+#### pass actions through `href` to target view `props`
 `<a href="#/view1/action1/action2">pass actions to view1</a>`
 
-#### pass params through `router.goto()`
+#### pass params through `router.goto()` to target view `props`
 ```
 import router from 'react-mrouter';
 

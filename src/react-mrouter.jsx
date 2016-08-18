@@ -21,43 +21,51 @@ export var Router = React.createClass({
     },
 
     componentDidMount: function(){
-        var that = this;
-        var baseView = that.props.baseView;
+        let that = this;
+        let baseView = that.props.baseView;
 
         function onpopstate(){
             // 通用路由规则
             // /{viewName}/{params}
-            var path = getPath() || baseView;
-            var actions = path.split('/');
-            var viewName = actions.shift();
-            var params = vp;
+            let path = getPath() || baseView;
+            let actions = path.split('/');
+            let viewName = actions.shift();
+            let params = vp;
             vp = null;// reset
 
-            var visuals = that.state.visuals.slice();
-            var lastViewPath = visuals.length > 1 ? visuals.slice(-2)[0].props.path : '';
+            let visuals = that.state.visuals.slice();
+            let lastViewPath = visuals.length > 1 ? visuals.slice(-2)[0].props.path : '';
 
-            var currentViewState = history.state;
+            let currentViewState = history.state;
             if(visuals[0] && currentViewState) {
                 // has view && has view state
-                // do close
+
+                // get current view
+                let currentView = visuals.slice(-1)[0];
+                let viewStamp = currentView.props.stamp;
+                let stateStamp = currentViewState.stamp;
+
                 // close current view
-                visuals.pop();
+                if(viewStamp > stateStamp) visuals.pop();
             }
 
             if(!visuals[0] || !currentViewState){
+                // no view || no view state
+
                 // next router is last, fix back
                 if(path == lastViewPath) return history.go(-2);
 
-                // no view || no view state
+                // set view state for close
+                let stamp = Date.now();
+                history.replaceState({ stamp }, '', location.hash);
+
                 // open new view
-                var View = that.props.views[viewName];
-                visuals.push(
-                    <div className="view" key={'v' + visuals.length} path={path}>
+                let View = that.props.views[viewName];
+                if(View) visuals.push(
+                    <div className="view" key={'v' + visuals.length} stamp={stamp} path={path}>
                         <View actions={actions} params={params}/>
                     </div>
                 );
-
-                history.replaceState({ stamp: Date.now() }, '', location.hash);
             }
 
             that.setState({visuals: visuals});
