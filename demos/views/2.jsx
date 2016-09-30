@@ -15,7 +15,7 @@ module.exports = React.createClass({
                     <p>actions: {(this.props.actions || []).join(',')}</p>
                     <p>params: {this.props.params}</p>
 
-                    <a href="#/view1/action/from/view2">open view 1 with actions</a>
+                    <a href="#/view1/action1">open view 1</a>
                 </div>
             </div>
         );

@@ -34,7 +34,7 @@ export var Router = React.createClass({
             vp = null;// reset
 
             let visuals = that.state.visuals.slice();
-            let lastViewPath = visuals.length > 1 ? visuals.slice(-2)[0].props.path : '';
+            let lastViewPath = visuals.length > 1 ? visuals.slice(-2)[0].props['data-path'] : '';
 
             let currentViewState = history.state;
             if(visuals[0] && currentViewState) {
@@ -42,7 +42,7 @@ export var Router = React.createClass({
 
                 // get current view
                 let currentView = visuals.slice(-1)[0];
-                let viewStamp = currentView.props.stamp;
+                let viewStamp = currentView.props['data-stamp'];
                 let stateStamp = currentViewState.stamp;
 
                 // close current view
@@ -62,7 +62,7 @@ export var Router = React.createClass({
                 // open new view
                 let View = that.props.views[viewName];
                 if(View) visuals.push(
-                    <div className="view" key={'v' + visuals.length} stamp={stamp} path={path}>
+                    <div className="view" key={'v' + visuals.length} data-stamp={stamp} data-path={path}>
                         <View actions={actions} params={params}/>
                     </div>
                 );

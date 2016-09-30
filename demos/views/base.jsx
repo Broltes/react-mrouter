@@ -13,7 +13,7 @@ module.exports = React.createClass({
                     <h2>react-mrouter</h2>
                 </header>
                 <div className="main">
-                    <a href="#/view1/action/from/base">open view 1 with actions</a>
+                    <a href="#/view1/action1">open view 1 with actions</a>
                     <a onClick={this.openView2}>open view 2 with params</a>
                 </div>
                 <footer>

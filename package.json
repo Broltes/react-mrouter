@@ -4,7 +4,7 @@
   "description": "React Interactions, Render Once Use Anywhere",
   "main": "./lib/react-mrouter.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --config webpack.dev.config.js",
+    "dev": "webpack-dev-server --hot --config webpack.dev.config.js",
     "build": "babel src --out-dir lib && cp src/*.less lib/",
     "demos": "webpack -p --optimize-dedupe --progress --config webpack.demos.config.js",
     "clean:demos": "rm -rf ../github.io/router",
@@ -43,9 +43,9 @@
     "html-webpack-plugin": "^2.19.0",
     "less-loader": "^2.2.3",
     "postcss-loader": "^0.9.1",
-    "react": "~15.1.0",
-    "react-dom": "~15.1.0",
-    "react-hot-loader": "~1.3.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-hot-loader": "^1.3.0",
     "style-loader": "~0.13.1",
     "webpack": "~1.13.1",
     "webpack-dev-server": "~1.14.1"

@@ -6,7 +6,7 @@ import { Router } from 'react-mrouter';
 var views = {
     base: require('./views/base'),
     view1: require('./views/1'),
-    view2: require('./views/2'),
+    view2: require('./views/2')
 };
 
 var App = React.createClass({
