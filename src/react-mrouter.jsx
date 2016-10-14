@@ -35,7 +35,8 @@ export var Router = React.createClass({
 
             let visuals = that.state.visuals.slice();
             let targetViewState = history.state;
-            let lastView = visuals.slice(-2)[0];
+            let currentView = visuals.slice(-1)[0];
+            let lastView = visuals.length > 1 && visuals.slice(-2)[0];
 
             if(
                 lastView &&
@@ -45,6 +46,10 @@ export var Router = React.createClass({
                 // close current view
                 visuals.pop();
             } else {
+                // targetView is currentView(eg: open none view then back)
+                // skip
+                if(currentView && targetViewState && currentView.key == targetViewState.key) return;
+
                 // next router is last, fix back
                 let lastViewPath = lastView && lastView.props['data-path'];
                 if(path == lastViewPath) return history.go(-2);
