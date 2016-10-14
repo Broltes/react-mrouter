@@ -34,38 +34,37 @@ export var Router = React.createClass({
             vp = null;// reset
 
             let visuals = that.state.visuals.slice();
-            let lastViewPath = visuals.length > 1 ? visuals.slice(-2)[0].props['data-path'] : '';
+            let targetViewState = history.state;
+            let lastView = visuals.slice(-2)[0];
 
-            let currentViewState = history.state;
-            if(visuals[0] && currentViewState) {
-                // has view && has view state
-
-                // get current view
-                let currentView = visuals.slice(-1)[0];
-                let viewStamp = currentView.props['data-stamp'];
-                let stateStamp = currentViewState.stamp;
-
+            if(
+                lastView &&
+                targetViewState &&
+                (lastView.key == targetViewState.key)
+            ) {
                 // close current view
-                if(viewStamp > stateStamp) visuals.pop();
-            }
-
-            if(!visuals[0] || !currentViewState){
-                // no view || no view state
-
+                visuals.pop();
+            } else {
                 // next router is last, fix back
+                let lastViewPath = lastView && lastView.props['data-path'];
                 if(path == lastViewPath) return history.go(-2);
 
                 // set view state for close
-                let stamp = Date.now();
-                history.replaceState({ stamp }, '', location.hash);
+                let key = 'v' + Date.now();
+                history.replaceState({ key }, '', location.hash);
 
                 // open new view
                 let View = that.props.views[viewName];
-                if(View) visuals.push(
-                    <div className="view" key={'v' + visuals.length} data-stamp={stamp} data-path={path}>
-                        <View actions={actions} params={params}/>
-                    </div>
-                );
+                if(View) {
+                    let visual = (
+                        <div className="view" key={key} data-path={path}>
+                            <View actions={actions} params={params}/>
+                        </div>
+                    );
+
+                    if(viewName == baseView) visuals = [visual];// reset for baseView
+                    else visuals.push(visual);// open normal view
+                }
             }
 
             that.setState({visuals: visuals});
