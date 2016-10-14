@@ -1,6 +1,6 @@
 {
   "name": "react-mrouter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React Interactions, Render Once Use Anywhere",
   "main": "./lib/react-mrouter.js",
   "scripts": {
