@@ -2,9 +2,15 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './animation.less';
 
-var vp;// view params，视图通过路由传递的参数
+let vp;// view params，视图通过路由传递的参数
 function getPath(url) {
     return (url || location.hash).replace(/^#\//, '');
+}
+function resolvePath(path = getPath()) {
+    let actions = path.split('/');
+    let viewName = actions.shift();
+
+    return { viewName, actions };
 }
 
 export var Router = React.createClass({
@@ -28,8 +34,7 @@ export var Router = React.createClass({
             // 通用路由规则
             // /{viewName}/{params}
             let path = getPath() || baseView;
-            let actions = path.split('/');
-            let viewName = actions.shift();
+            let { viewName, actions } = resolvePath(path);
             let params = vp;
             vp = null;// reset
 
@@ -100,7 +105,7 @@ export default {
         vp = params;// set view params first
         location.hash = '#' + actions;// then router to view
     },
-    getPath,
+    getPath, resolvePath,
     back(){
         history.back();
     },
