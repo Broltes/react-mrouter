@@ -67,9 +67,7 @@ export var Router = React.createClass({
                 let View = that.props.views[viewName];
                 if(View) {
                     let visual = (
-                        <div className="view" key={key} data-path={path}>
-                            <View actions={actions} params={params}/>
-                        </div>
+                        <View key={key} data-path={path} actions={actions} params={params}/>
                     );
 
                     if(viewName == baseView) visuals = [visual];// reset for baseView
