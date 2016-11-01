@@ -59,11 +59,8 @@ export var Router = React.createClass({
                 let lastViewPath = lastView && lastView.props['data-path'];
                 if(path == lastViewPath) return history.go(-2);
 
-                // set view state for close
-                let key = 'v' + Date.now();
-                history.replaceState({ key }, '', location.hash);
-
                 // open new view
+                let key = 'v' + Date.now();
                 let View = that.props.views[viewName];
                 if(View) {
                     let visual = (
@@ -73,6 +70,10 @@ export var Router = React.createClass({
                     if(viewName == baseView) visuals = [visual];// reset for baseView
                     else visuals.push(visual);// open normal view
                 }
+
+                // set view state for close
+                // setTimeout解决开启动画chrome不触发
+                setTimeout(() => history.replaceState({ key }, '', location.hash));
             }
 
             that.setState({visuals: visuals});
