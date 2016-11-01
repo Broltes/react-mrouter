@@ -2,7 +2,7 @@ import React from 'react';
 import router from 'react-mrouter';
 
 module.exports = React.createClass({
-    render: function() {
+    render() {
         return (
             <div>
                 <header>
